@@ -77,7 +77,7 @@ public class ReservationService {
         reservationDao.deleteById(id);
     }
 
-    public void approveReservationById(long id) {
+    public void approveById(long id) {
         /*
          * 예약 요청(CREATED) → 승인 처리
          */
@@ -101,6 +101,7 @@ public class ReservationService {
                         )
                 );
             }
+            default -> throw new IllegalArgumentException();
         }
     }
 
@@ -117,10 +118,11 @@ public class ReservationService {
         switch (reservation.getReservationStatus()) {
             case CREATED -> reservationDao.updateStatus(id, ReservationStatus.CANCELLED);
             case APPROVED -> reservationDao.updateStatus(id, ReservationStatus.REQUESTED_CANCEL);
+            default -> throw new IllegalArgumentException();
         }
     }
 
-    public void cancelRequestedById(long id) {
+    public void cancelApproveById(long id) {
         /*
          * 승인한 예약 취소 요청(REQUESTED_CANCEL) → 역방항 매출 기록 후 취소 처리
          */
@@ -145,6 +147,7 @@ public class ReservationService {
                 );
                 reservationDao.updateStatus(id, ReservationStatus.CANCELLED);
             }
+            default -> throw new IllegalArgumentException();
         }
     }
 
@@ -159,8 +162,8 @@ public class ReservationService {
         }
 
         switch (reservation.getReservationStatus()) {
-            /* 승인한 예약 취소 요청 상태, 예약 승인 상태 */
-            case REQUESTED_CANCEL, APPROVED -> {
+            /* 예약 승인 상태 */
+            case APPROVED -> {
                 saleHistoryDao.save(
                         new SaleHistory(
                                 reservation.getSchedule().getTheme().getName(),
@@ -175,9 +178,8 @@ public class ReservationService {
                 reservationDao.updateStatus(id, ReservationStatus.REJECTED);
             }
             /* 예약 요청 상태 */
-            case CREATED -> {
-                reservationDao.updateStatus(id, ReservationStatus.REJECTED);
-            }
+            case CREATED -> reservationDao.updateStatus(id, ReservationStatus.REJECTED);
+            default -> throw new IllegalArgumentException();
         }
     }
 }

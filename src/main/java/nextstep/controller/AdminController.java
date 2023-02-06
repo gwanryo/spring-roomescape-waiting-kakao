@@ -17,13 +17,13 @@ public class AdminController {
 
     @PatchMapping("/reservations/{id}/approve")
     public ResponseEntity<?> approveResevation(@LoginMember UserDetails userDetails, @PathVariable long id) {
-        reservationService.approveReservationById(id);
+        reservationService.approveById(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/reservations/{id}/cancel-approve")
     public ResponseEntity<?> cancelApproveReservation(@LoginMember UserDetails userDetails, @PathVariable long id) {
-        reservationService.cancelRequestedById(id);
+        reservationService.cancelApproveById(id);
         return ResponseEntity.ok().build();
     }
 
