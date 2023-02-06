@@ -2,7 +2,6 @@ package nextstep.controller;
 
 import auth.domain.UserDetails;
 import auth.support.template.LoginMember;
-import nextstep.domain.ReservationStatus;
 import nextstep.service.ReservationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

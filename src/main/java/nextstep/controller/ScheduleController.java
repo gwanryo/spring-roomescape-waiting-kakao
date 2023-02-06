@@ -19,7 +19,7 @@ public class ScheduleController {
 
     @PostMapping("/admin/schedules")
     public ResponseEntity<?> createSchedule(@RequestBody ScheduleRequest scheduleRequest) {
-        long id = scheduleService.create(scheduleRequest);
+        long id = scheduleService.create(new Schedule(scheduleRequest));
         return ResponseEntity.created(URI.create("/schedules/" + id)).build();
     }
 

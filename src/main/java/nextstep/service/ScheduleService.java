@@ -1,6 +1,5 @@
 package nextstep.service;
 
-import nextstep.controller.dto.request.ScheduleRequest;
 import nextstep.domain.Schedule;
 import nextstep.domain.Theme;
 import nextstep.repository.ScheduleDao;
@@ -19,9 +18,9 @@ public class ScheduleService {
         this.themeDao = themeDao;
     }
 
-    public long create(ScheduleRequest scheduleRequest) {
-        Theme theme = themeDao.findById(scheduleRequest.getThemeId());
-        return scheduleDao.save(scheduleRequest.toEntity(theme));
+    public long create(Schedule schedule) {
+        Theme theme = themeDao.findById(schedule.getTheme().getId());
+        return scheduleDao.save(Schedule.builder().theme(theme).date(schedule.getDate()).time(schedule.getTime()).build());
     }
 
     public List<Schedule> findByThemeIdAndDate(long themeId, String date) {

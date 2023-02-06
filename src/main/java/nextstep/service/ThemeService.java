@@ -1,6 +1,5 @@
 package nextstep.service;
 
-import nextstep.controller.dto.request.ThemeRequest;
 import nextstep.domain.Theme;
 import nextstep.repository.ThemeDao;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,8 @@ public class ThemeService {
         this.themeDao = themeDao;
     }
 
-    public long create(ThemeRequest themeRequest) {
-        return themeDao.save(themeRequest.toEntity());
+    public long create(Theme theme) {
+        return themeDao.save(theme);
     }
 
     public List<Theme> findAll() {

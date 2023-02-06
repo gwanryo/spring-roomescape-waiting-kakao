@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import nextstep.controller.dto.request.ScheduleRequest;
+import nextstep.controller.dto.response.ScheduleResponse;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,10 +20,10 @@ public class Schedule {
     private LocalDate date;
     private LocalTime time;
 
-    public Schedule(Theme theme, LocalDate date, LocalTime time) {
-        this.theme = theme;
-        this.date = date;
-        this.time = time;
+    public Schedule(ScheduleRequest schedule) {
+        this.theme = new Theme(schedule.getThemeId());
+        this.date = LocalDate.parse(schedule.getDate());
+        this.time = LocalTime.parse(schedule.getTime());
     }
 
     public Long getId() {
@@ -38,5 +40,9 @@ public class Schedule {
 
     public LocalTime getTime() {
         return time;
+    }
+
+    public ScheduleResponse toResponse() {
+        return ScheduleResponse.builder().theme(theme.toResponse()).date(date).time(time).build();
     }
 }
